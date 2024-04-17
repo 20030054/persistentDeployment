@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gubtom-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gubtom
+  template:
+    metadata:
+      labels:
+        app: gubtom
+    spec:
+      containers:
+      - name: gubtom-container
+        image: malijutt/tomcat6saleapp
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: gubtom-persistent-storage
+          mountPath: /usr/local/tomcat/webapps
+      volumes:
+      - name: gubtom-persistent-storage
+        persistentVolumeClaim:
+          claimName: gubtom-pvc
